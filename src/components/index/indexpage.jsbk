@@ -1,0 +1,95 @@
+/**
+ * Created by Administrator on 2016/8/21.
+ */
+var React = require('react'),
+  superagent = require('superagent'),
+
+  TopicList = require('./UserIndex');
+
+var IndexPage = React.createClass({
+  getInitialState: function() {
+    return {
+      hostname: 'localhost',
+      topicList: [],
+      checkMore: false,
+      nextPage: 1,
+
+    };
+  },
+  /**
+   * 初次加载的时候请求数据
+   */
+  componentDidMount: function() {
+    var _nextPage = this.state.nextPage;
+
+    superagent
+      .get('http://' + this.state.hostname + ':8888/api/bears?page=' + _nextPage )
+      .end(function(err, data) {
+        if (err) {
+          console.error(err);
+          return;
+        }
+        var topicList = data.body;
+        if (this.isMounted()) {
+          this.setState({
+            topicList: topicList,
+            checkMore: true,
+            nextPage: 2,
+
+          });
+        }
+
+      }.bind(this));
+  },
+  /**
+   * 每次点击顶部的tab切换时候请求数据
+   */
+  componentWillReceiveProps: function(nextProps) {
+    var _tab = nextProps.location.query.tab;
+    superagent
+      .get('http://' + this.state.hostname + ':8888/api/bears?page=1')
+      .end(function(err, data) {
+        if (err) {
+          console.error(err);
+          return;
+        }
+        var topicList = data.body;
+        this.setState({
+          topicList: topicList,
+
+          nextPage: 2
+        });
+      }.bind(this));
+  },
+  /**
+   * 请求更多数据
+   */
+  checkMore: function() {
+    var _nextPage = this.state.nextPage;
+
+    superagent
+      .get('http://' + this.state.hostname + ':8888/api/bears?page=' + _nextPage )
+      .end(function(err, data) {
+        var topicList = this.state.topicList.concat(data.body);
+        if (err) {
+          console.error(err);
+          return;
+        }
+        this.setState({
+          topicList: topicList,
+          nextPage: (this.state.nextPage + 1)
+        });
+
+      }.bind(this));
+  },
+  render: function() {
+    return (
+      <div>
+        <h1>hello</h1>
+        <TopicList topicList={this.state.topicList} checkMore={this.checkMore} />
+      </div>
+    );
+  }
+});
+
+module.exports = IndexPage;

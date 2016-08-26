@@ -1,0 +1,95 @@
+/**
+ * Created by Administrator on 2016/8/24.
+ */
+var React =require( 'react');
+/*
+import Reflux from 'reflux';
+import TodoActions from '/src/actions/todoActions';
+import  TodoStore from '/src/stores/todoStore';
+var TodoItem=React.createClass(
+  {
+    getInitialState:function (){
+      return({});
+    },
+    handledelte:function (){
+      TodoActions.removeItem(this.props.id);
+    },
+    render:function(){
+     return(
+       <li>
+         <div>
+           <input type="checkbox" checked={this.props.isCompleted}/>
+           <input type="text">{this.props.name}</input>
+           <button onclick={this.handledelte}>delete</button>
+         </div>
+       </li>
+     );
+    }
+  }
+);
+var TodoMain=React.createClass(
+  {
+    getInitialState(){},
+    render:function (){
+      return(
+        <section>
+          <ul>
+            {
+              this.props.list.map((x)=>{
+                return (
+                  <TodoItem name={x.name} isCompleted={x.isCompleted}/>
+                );
+              })
+            }
+          </ul>
+        </section>
+      );
+    }
+  }
+);
+var TodoHeader=React.createClass(
+  {
+    handleadd(evt){
+      TodoActions.addItem(evt.target.value);
+    },
+    render:function (){
+      return(
+        <header>
+        <h1>todos</h1>
+          <input type="text" onkeyup={this.handleadd} />
+        </header>
+      );
+    }
+  }
+);
+var TodoApp=React.createClass(
+  {
+    mixins:[Reflux.connect(TodoStore,"list")],
+    render:function () {
+      return(
+        <div>
+          <TodoHeader/>
+          <TodoMain list={this.state.list}></TodoMain>
+        </div>
+      );
+    }
+
+
+  }
+);*/
+var TodoApp1=React.createClass(
+  {
+
+    render:function () {
+      return(
+        <div>
+          <label>ddddd</label>
+        </div>
+      );
+    }
+
+
+  }
+);
+
+module.exports=TodoApp1;
