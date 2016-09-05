@@ -9,6 +9,7 @@
     "copy": "copyfiles -f ./src/index.html ./src/favicon.ico ./dist",
     "dist": "npm run copy & webpack --env=dist",
     "lint": "eslint ./src",
+    "backstart": "node backapp.js --env=dev",
     "posttest": "npm run lint",
     "release:major": "npm version major && npm publish && git push --follow-tags",
     "release:minor": "npm version minor && npm publish && git push --follow-tags",
@@ -64,9 +65,18 @@
     "node-sass": "^3.4.2"
   },
   "dependencies": {
+    "body-parser": "^1.15.2",
     "core-js": "^2.0.0",
+    "express": "^4.14.0",
+    "material-ui": "^0.15.4",
+    "mongodb": "^2.2.5",
+    "mongoose": "^4.5.8",
     "normalize.css": "^4.0.0",
     "react": "^15.0.0",
-    "react-dom": "^15.0.0"
+    "react-dom": "^15.0.0",
+    "react-router": "^2.7.0",
+    "react-tap-event-plugin": "^1.0.0",
+    "reflux": "^0.4.1",
+    "superagent": "^2.2.0"
   }
 }
