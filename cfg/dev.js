@@ -1,5 +1,5 @@
 'use strict';
-
+console.log("entry dev");
 let path = require('path');
 let webpack = require('webpack');
 let baseConfig = require('./base');
@@ -25,7 +25,7 @@ let config = Object.assign({}, baseConfig, {
   ],
   module: defaultSettings.getDefaultModules()
 });
-
+console.log(config.backport);
 // Add needed loaders to the defaults here
 config.module.loaders.push({
   test: /\.(js|jsx)$/,

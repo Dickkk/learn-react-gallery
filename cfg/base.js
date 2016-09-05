@@ -12,6 +12,7 @@ let additionalPaths = [];
 module.exports = {
   additionalPaths: additionalPaths,
   port: defaultSettings.port,
+  backport:defaultSettings.backport,
   debug: true,
   devtool: 'eval',
   output: {
@@ -24,10 +25,12 @@ module.exports = {
     historyApiFallback: true,
     hot: true,
     port: defaultSettings.port,
+    backport:defaultSettings.backport,
     publicPath: defaultSettings.publicPath,
     noInfo: false
   },
   resolve: {
+
     extensions: ['', '.js', '.jsx'],
     alias: {
       actions: `${defaultSettings.srcPath}/actions/`,
@@ -35,6 +38,7 @@ module.exports = {
       sources: `${defaultSettings.srcPath}/sources/`,
       stores: `${defaultSettings.srcPath}/stores/`,
       styles: `${defaultSettings.srcPath}/styles/`,
+      images:`${defaultSettings.srcPath}/images/`,
       config: `${defaultSettings.srcPath}/config/` + process.env.REACT_WEBPACK_ENV
     }
   },

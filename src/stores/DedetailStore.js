@@ -3,16 +3,16 @@
  */
 import superagent from 'superagent';
   var  Reflux =require( 'reflux');
-  import DeActions from 'actions/deActions'
+  import TodoActions from 'actions/todoActions'
   'use strict';
-  var deListStore=Reflux.createStore({
-    listenables:[DeActions],
+  var todoListStore=Reflux.createStore({
+    listenables:[TodoActions],
     onEditItem:function (itemkey,newLabel) {
 
     },
-    onAddItem:function (deprdt) {
+    onAddItem:function (name) {
       superagent.post('http://localhost'  + ':8888/api/todos')
-        .send({data:deprdt})
+        .send({name:name,isCompleted:false})
         .end(function (err,data){
           if(err)
           {
@@ -32,14 +32,14 @@ import superagent from 'superagent';
     onClearCompleteItem:function () {
 
     },
-    onRemoveItem:function (prdt_no) {
-      console.info("delete item");
+    onRemoveItem:function (id) {
+      console.info("delete item"+JSON.stringify(this.list));
       var tmplist=this.list;
-      superagent.delete('http://localhost'  + ':8888/api/deprdts/'+prdt_no)
+      superagent.delete('http://localhost'  + ':8888/api/todos/'+id)
         .end(function (err,data) {
           console.info("delete item"+JSON.stringify(tmplist));
           this.list=tmplist.filter(function (x){
-            return x.prdt_no!=prdt_no;
+            return x._id!=id;
           });
           console.info("delete item"+JSON.stringify(this.list));
           this.trigger(this.list);
@@ -47,7 +47,7 @@ import superagent from 'superagent';
     },
     updateList:function () {
       superagent
-        .get('http://localhost'  + ':8888/api/deprdts?page='+(this.nextPage-1))
+        .get('http://localhost'  + ':8888/api/todos?page='+(this.nextPage-1))
         .end(function (err,data){
           if(err)
           {
@@ -69,7 +69,7 @@ import superagent from 'superagent';
         this.list = [];
       }
       superagent
-        .get('http://localhost'  + ':8888/api/prdts?page=' + this.nextPage )
+        .get('http://localhost'  + ':8888/api/todos?page=' + this.nextPage )
         .end(function(err, data) {
 
           if (err) {
@@ -89,5 +89,5 @@ import superagent from 'superagent';
 
     }
   });
-module.exports=deListStore;
+module.exports=todoListStore;
 

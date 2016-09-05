@@ -3,8 +3,7 @@
  */
 var mongoose=require('mongoose');
 var Schema=mongoose.Schema;
-var todoSchema=new Schema({
-  isCompleted:Boolean,
+var bearSchema=new Schema({
   name: String
 });
-module.exports=mongoose.model('todo',todoSchema);
+module.exports=mongoose.model('bear',bearSchema);

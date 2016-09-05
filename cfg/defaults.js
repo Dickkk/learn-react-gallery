@@ -8,7 +8,9 @@
 
 const path = require('path');
 const srcPath = path.join(__dirname, '/../src');
-const dfltPort = 8000;
+const dfltPort = 8080;
+const backPort = 8888;
+const libPath=path.join(__dirname,'/../node_modules');
 
 /**
  * Get the default modules object for webpack
@@ -57,8 +59,10 @@ function getDefaultModules() {
 }
 
 module.exports = {
+  libPath:libPath,
   srcPath: srcPath,
   publicPath: '/assets/',
   port: dfltPort,
+  backport:backPort,
   getDefaultModules: getDefaultModules
 };

@@ -10,9 +10,9 @@ import superagent from 'superagent';
     onEditItem:function (itemkey,newLabel) {
 
     },
-    onAddItem:function (deprdt) {
-      superagent.post('http://localhost'  + ':8888/api/todos')
-        .send({data:deprdt})
+    onAddItem:function (data) {
+      superagent.post('http://localhost'  + ':8888/api/prdts')
+        .send({data:data})
         .end(function (err,data){
           if(err)
           {
@@ -33,9 +33,9 @@ import superagent from 'superagent';
 
     },
     onRemoveItem:function (prdt_no) {
-      console.info("delete item");
+      console.info("delete item"+JSON.stringify(this.list));
       var tmplist=this.list;
-      superagent.delete('http://localhost'  + ':8888/api/deprdts/'+prdt_no)
+      superagent.delete('http://localhost'  + ':8888/api/prdts/'+prdt_no)
         .end(function (err,data) {
           console.info("delete item"+JSON.stringify(tmplist));
           this.list=tmplist.filter(function (x){
@@ -47,7 +47,7 @@ import superagent from 'superagent';
     },
     updateList:function () {
       superagent
-        .get('http://localhost'  + ':8888/api/deprdts?page='+(this.nextPage-1))
+        .get('http://localhost'  + ':8888/api/prdts?page='+(this.nextPage-1))
         .end(function (err,data){
           if(err)
           {
@@ -89,5 +89,70 @@ import superagent from 'superagent';
 
     }
   });
-module.exports=deListStore;
+var deDetailStore=Reflux.createStore({
+  listenables:[DeActions],
+
+  onLoadPrdtfromUI:function (prdt) {
+    if(prdt=="*")
+    {
+      var obj = {
+        opt_type: "add",
+        prdt_no: '*',
+        debase: { prdt_knd: '', prdt_type: ''},
+        derate: {rate_type: '', rate_chrg_type: '', rate_code: '', rate_rule: []}
+      };
+      this.prdt = obj;
+      this.trigger(this.prdt);
+    }
+    else
+    {
+
+          this.prdt=prdt;
+          this.trigger(this.prdt);
+
+    }
+
+  },
+  onLoadPrdtfromServer:function (prdt_no) {
+    if(prdt_no=="*")
+    {
+      this.trigger(this.prdt);
+    }
+    else
+    {
+      superagent.get('http://localhost'  + ':8888/api/prdt/'+prdt_no)
+        .send({prdt_no:prdt_no})
+        .end(function (err,data){
+          if(err)
+          {
+            console.error(err);
+            return;
+          }
+          this.prdt=data.body["0"];
+          this.trigger(this.prdt);
+        }.bind(this))
+    }
+
+  }
+  ,
+
+  getInitialState:function () {
+    if(this.prdt==undefined) {
+      var obj = {
+        opt_type: "add",
+        prdt_no: '*',
+        debase: { prdt_knd: '', prdt_type: ''},
+        derate: {rate_type: '', rate_chrg_type: '', rate_code: '', rate_rule: []}
+      };
+      this.prdt = obj;
+    }
+    this.trigger(this.prdt);
+    return(this.prdt);
+
+
+  }
+});
+
+exports.deListStore=deListStore;
+exports.deDetailStore=deDetailStore;
 
