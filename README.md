@@ -1,5 +1,5 @@
 # learn-react-gallery
-my first across with react
+peep  at react
 ## Run it
 npm install
 
